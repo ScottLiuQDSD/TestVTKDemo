@@ -1,0 +1,7 @@
+#ifndef DRAWING_CLASS_HEADER_20180514
+#define DRAWING_CLASS_HEADER_20180514
+
+void XYPlotActor();
+void CubeAxes();
+
+#endif	//DRAWING_CLASS_HEADER_20180514

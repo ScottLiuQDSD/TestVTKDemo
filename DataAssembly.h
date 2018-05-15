@@ -1,0 +1,8 @@
+#ifndef DATA_ASSEMBLY_HEADER_20180511
+#define DATA_ASSEMBLY_HEADER_20180511
+
+void Assembly46();
+void EndAssembly46();
+
+
+#endif	//DATA_ASSEMBLY_HEADER_20180511
