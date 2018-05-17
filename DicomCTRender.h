@@ -1,0 +1,5 @@
+#ifndef DICOM_CT_RENDER_DEMO_HEADER_20180515
+#define DICOM_CT_RENDER_DEMO_HEADER_20180515
+void renderDicomCTDemo();
+void releaseRenderDicomCTDemo();
+#endif //DICOM_CT_RENDER_DEMO_HEADER_20180515

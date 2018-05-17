@@ -18,6 +18,12 @@
 #include "Volumes3D.h"
 #include "TestText4_11.h"
 #include "DrawingClass4_12.h"
+#include "DataManipulation4_13.h"
+#include "DicomCTRender.h"
+#include "ImplictPlaneWidgetDemo4_13.h"
+#include "AntiAliasing4_14.h"
+#include "PointDataAndCellDataConvert5_1.h"
+#include "ElevationBandsWithGlyphs.h"
 
 LRESULT				funcAssetCallback(HWND hwnd);
 
@@ -39,7 +45,19 @@ LRESULT runMyFunc(HWND hWnd)
 	//TextAnnotationMultiLine4_11();
 	//TextAnnotation3D4_11();
 	//XYPlotActor();
-	CubeAxes();
+	//CubeAxes();
+	//LabeledMesh();
+	//matching();
+	//renderDicomCTDemo();	//this demo can show a volume model
+	//ImplictPlaneWidgetDemo4_15();
+	//AntiAliasing4_14();
+	//deepthPeeling();
+	//animationCueDemo();
+	//PointDataAndCellDataConvert5_1();
+	//RainbowRender5_1();
+	//VisQuad5_1();
+	//SpikeF5_1();
+	ElevationBandsWithGlyphs();
 
 	return S_OK;
 }

@@ -26,6 +26,13 @@
 #include "vtkOutlineFilter.h"
 #include "vtkLight.h"
 #include "vtkCubeAxesActor2D.h"
+#include "vtkSphereSource.h"
+#include "vtkTextActor.h"
+#include "vtkIdFilter.h"
+#include "vtkSelectVisiblePoints.h"
+#include "vtkLabeledDataMapper.h"
+#include "vtkCellCenters.h"
+#include "vtkPolyDataMapper2D.h"
 
 void XYPlotActor()
 {
@@ -407,4 +414,128 @@ void CubeAxes()
 
 
 
+}
+	
+int xLength = 100;
+int yLength = 100;
+int xmin = 200;
+int xmax = xmin + xLength;
+int ymin = 200;
+int ymax = ymin + yLength;
+vtkSelectVisiblePoints *visPts;
+vtkSelectVisiblePoints *visCells;
+vtkPoints *pts;
+vtkRenderWindow* renWin;
+void PlaceWindow(int xmin, int ymin);
+void MoveWindow()
+{
+	for (int y = 100; y < 300;  y += 25) {
+		for (int x = 100; x < 300; x += 25) {
+			PlaceWindow(x, y);
+		}
+	}
+
+}
+void PlaceWindow(int xmin, int ymin)
+{
+	xmax = xmin + xLength;
+	ymax = ymax + yLength;
+	visPts->SetSelection(xmin, xmax, ymin, ymax);
+	visCells->SetSelection(xmin, xmax, ymin, ymax);
+
+	pts->InsertPoint( 0, xmin,ymin, 0);
+	pts->InsertPoint( 1, xmax,ymin, 0);
+	pts->InsertPoint( 2, xmax,ymax, 0);
+	pts->InsertPoint( 3, xmin,ymax, 0);
+	//Call Modified because InsertPoints does not modify vtkPoints
+	//(for performance reasons).
+	pts->Modified();
+
+	renWin->Render();
+}
+void LabeledMesh()
+{
+	VTK_MODULE_INIT(vtkRenderingFreeType);
+	pts = vtkPoints::New();
+	pts->InsertPoint(0, xmin, ymin, 0);
+	pts->InsertPoint(1, xmax, ymin, 0);
+	pts->InsertPoint(2, xmax, ymax, 0);
+	pts->InsertPoint(3, xmin, ymax, 0);
+	vtkCellArray *rect = vtkCellArray::New();
+	rect->InsertNextCell(5);
+	rect->InsertCellPoint(0);
+	rect->InsertCellPoint(1);
+	rect->InsertCellPoint(2);
+	rect->InsertCellPoint(3);
+	rect->InsertCellPoint(0);
+	vtkPolyData *selectRect = vtkPolyData::New();
+	selectRect->SetPoints(pts);
+	selectRect->SetLines(rect);
+	vtkPolyDataMapper2D *rectMapper = vtkPolyDataMapper2D::New();
+	rectMapper->SetInputData(selectRect);
+	vtkActor2D *rectActor = vtkActor2D::New();
+	rectActor->SetMapper(rectMapper);
+
+	vtkSphereSource *sphere = vtkSphereSource::New();
+	vtkPolyDataMapper *sphereMapper = vtkPolyDataMapper::New();
+	sphereMapper->SetInputConnection(sphere->GetOutputPort());
+	sphereMapper->GlobalImmediateModeRenderingOn();
+
+	vtkActor *sphereActor = vtkActor::New();
+	sphereActor->SetMapper(sphereMapper);
+
+	vtkIdFilter *ids = vtkIdFilter::New();
+	ids->SetInputConnection(sphere->GetOutputPort());
+	ids->PointIdsOn();
+	ids->CellIdsOn();
+	ids->FieldDataOn();
+
+	vtkRenderer *ren1 = vtkRenderer::New();
+
+	visPts = vtkSelectVisiblePoints::New();
+	visPts->SetInputConnection(ids->GetOutputPort());
+	visPts->SetRenderer(ren1);
+	visPts->SelectionWindowOn();
+	visPts->SetSelection(xmin, xmax, ymin, ymax);
+	vtkLabeledDataMapper *ldm = vtkLabeledDataMapper::New();
+	ldm->SetInputConnection(visPts->GetOutputPort());
+	ldm->SetLabelFormat("%g");
+	ldm->SetLabelModeToLabelFieldData();
+	vtkActor2D *pointLabels = vtkActor2D::New();
+	pointLabels->SetMapper(ldm);
+	vtkCellCenters *cc = vtkCellCenters::New();
+	cc->SetInputConnection(ids->GetOutputPort());
+	visCells = vtkSelectVisiblePoints::New();
+	visCells->SetInputConnection(cc->GetOutputPort());
+	visCells->SetRenderer(ren1);
+	visCells->SelectionWindowOn();
+	visCells->SetSelection(xmin, xmax, ymin, ymax);
+	vtkLabeledDataMapper *cellMapper = vtkLabeledDataMapper::New();
+	cellMapper->SetInputConnection(visCells->GetOutputPort());
+	cellMapper->SetLabelFormat("%g");
+	cellMapper->SetLabelModeToLabelFieldData();
+	cellMapper->GetLabelTextProperty()->SetColor(0, 1, 0);
+	vtkActor2D *cellLabels = vtkActor2D::New();
+	cellLabels->SetMapper(cellMapper);
+
+	renWin = vtkRenderWindow::New();
+	renWin->AddRenderer(ren1);
+	vtkRenderWindowInteractor *iren = vtkRenderWindowInteractor::New();
+	iren->SetRenderWindow(renWin);
+	ren1->AddActor(sphereActor);
+
+	ren1->AddActor(sphereActor);
+	ren1->AddActor2D(rectActor);
+	ren1->AddActor2D(pointLabels);
+	ren1->AddActor2D(cellLabels);
+
+	ren1->SetBackground(1, 1, 1);
+	renWin->SetSize(500, 500);
+	ren1->ResetCamera();
+	ren1->GetActiveCamera()->Zoom(1.5);
+	renWin->Render();
+	MoveWindow();
+	PlaceWindow(xmin, ymin);
+
+	iren->Start();
 }
