@@ -31,9 +31,6 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 
-#include <vtkSmartPointer.h>
-#define VTK_SP(type, name)\
-  vtkSmartPointer<type> name = vtkSmartPointer<type>::New()
 
 #include <string>
 #include <vector>

@@ -39,4 +39,9 @@ struct VTKCommonParam {
 	vtkLight	*light;
 };
 
+
+#include <vtkSmartPointer.h>
+#define VTK_SP(type, name)\
+  vtkSmartPointer<type> name = vtkSmartPointer<type>::New()
+
 // TODO: reference additional headers your program requires here

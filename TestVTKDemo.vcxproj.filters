@@ -72,6 +72,12 @@
     <ClInclude Include="ElevationBandsWithGlyphs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PolyDataVisuallization.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Contours2D6_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +126,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ElevationBandsWithGlyphs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PolyDataVisuallization.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Contours2D6_1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

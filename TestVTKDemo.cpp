@@ -24,6 +24,8 @@
 #include "AntiAliasing4_14.h"
 #include "PointDataAndCellDataConvert5_1.h"
 #include "ElevationBandsWithGlyphs.h"
+#include "PolyDataVisuallization.h"
+#include "Contours2D6_1.h"
 
 LRESULT				funcAssetCallback(HWND hwnd);
 
@@ -57,7 +59,19 @@ LRESULT runMyFunc(HWND hWnd)
 	//RainbowRender5_1();
 	//VisQuad5_1();
 	//SpikeF5_1();
-	ElevationBandsWithGlyphs();
+	//ElevationBandsWithGlyphs();
+	//ProbeCutting5_1();
+	//DataMerging5_1();
+	//ProbeComb5_1();
+	//ExtractGeometry5_1();
+	//CreateCube5_2();
+	//DecimationVtk5_2();
+	//DecimationStl5_2();	//this show how to decimate a stl model (very fast);
+	//SmoothMesh5_2();
+	//SmoothMeshSTL5_2();
+	//ClipData5_2(); 
+	//ClipDataSTL5_2();
+	Contours2D6_1();
 
 	return S_OK;
 }
